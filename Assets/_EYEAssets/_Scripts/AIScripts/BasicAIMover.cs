@@ -93,9 +93,10 @@ public class BasicAIMover : MonoBehaviour
         GoToPoint();
     }
 
+    //moves agent to current destination point
     void GoToPoint()
     {
-        agent.destination = waypoints[destPoint].position;  //moves agent to current destination point
+        agent.destination = waypoints[destPoint].position;  
     }
 
     //Random Waypoints
