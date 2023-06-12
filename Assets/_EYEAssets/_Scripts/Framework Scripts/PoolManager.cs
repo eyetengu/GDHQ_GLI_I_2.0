@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PoolManager : MonoBehaviour
 {    
     //turn this class into a singleton for easy accessibility
     private static PoolManager instance;
+    //Property for the PoolManager
     public static PoolManager Instance
     { 
         get 
@@ -17,24 +19,22 @@ public class PoolManager : MonoBehaviour
         } 
     }
 
-    [SerializeField]
-    private GameObject _enemyContainer;
-    [SerializeField] 
-    private GameObject _enemyPrefab;
-    [SerializeField] 
-    private List<GameObject> _enemyPool;
+    [Header("ENEMY SETTINGS")]
+    [SerializeField] private List<GameObject> _enemyPool;
+    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject _enemyContainer;                                                                                    
+    [SerializeField] private bool sendNextEnemy;
 
+    [Header("END POINTS")]
     [SerializeField]
     private Transform _startPoint;
-    [SerializeField]
-    private bool sendNextEnemy;
 
-    [SerializeField]
-    //private AudioSource _audioPlayer;
-    private AudioManager _audioManager;
-    [SerializeField]
-    private AudioClip _clipEnter;
+    [Header("AUDIO")]
+    [Header("Audio Settings")]
+    [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private AudioClip _enterEndpointClip;
 
+    //MAIN FUNCTIONS
     void Awake()
     {
         instance= this;
@@ -42,22 +42,16 @@ public class PoolManager : MonoBehaviour
 
     private void Start()
     {
-        sendNextEnemy = true;
+        //create 10 enemies and populate into enemy list
         _enemyPool = GenerateEnemies(10);
-
+        sendNextEnemy = true;
+    
         SpawnEnemy();
         //StartCoroutine(SpawnEnemyAtStartPoint());
     }
 
-    private void Update()
-    {
-        //if(sendNextEnemy == true)
-        //{
-        //    StartCoroutine(SpawnEnemyAtStartPoint());
-        //}
-    }
-
-    //pregenerate a list of enemies using the enemy prefab
+    //ENEMY INFORMATION
+    //CREATE ENEMIES & ADD TO ENEMY LIST
     List<GameObject> GenerateEnemies(int numberOfEnemies)
     {
         for (int i = 0; i < numberOfEnemies; i++)
@@ -70,6 +64,7 @@ public class PoolManager : MonoBehaviour
         return _enemyPool;
     }   
 
+    //SPAWN ENEMY AT START POINT
     public GameObject SpawnEnemy()
     {
         //loop through the enemy list
@@ -83,21 +78,24 @@ public class PoolManager : MonoBehaviour
             {
                 enemy.SetActive(true);
                 enemy.transform.position = _startPoint.position;
+
                 StartCoroutine(SpawnEnemyAtStartPoint());
+
                 _audioManager.PlayAudioClip(1);
                 
-                //_audioPlayer.PlayOneShot(_clipEnter);
                 return enemy;
             }
         }
         return null;
     }
 
+    //SPAWN ENEMY DELAY
     IEnumerator SpawnEnemyAtStartPoint()
     {
         Debug.Log("Enemy Spawned");
         yield return new WaitForSeconds(5); // (Random.Range(1, 2));
-        //sendNextEnemy = true;
+        
         SpawnEnemy();
     }
+    
 }

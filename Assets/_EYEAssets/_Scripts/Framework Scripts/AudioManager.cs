@@ -6,11 +6,10 @@ public class AudioManager : MonoBehaviour
 {
     private AudioSource m_AudioSource;
 
-    [SerializeField]
-    private AudioClip _clip01;
-    [SerializeField] 
-    private AudioClip _clip02;
-    [SerializeField] private AudioClip _clip03;
+    [SerializeField] private AudioClip _clip01;         //enemy spawned
+    [SerializeField] private AudioClip _clip02;         //enemy entered end zone
+    [SerializeField] private AudioClip _clip03;         //game over
+    [SerializeField] private AudioClip _clip04;         //enemy hit
 
     void Start()
     {
