@@ -111,9 +111,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc1874cab07f724facff61676bf2d38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationClips: []
-  _endPoint: {fileID: 2745187284061952994, guid: 71a1ba862efac1c4e80e39392840adfd, type: 3}
-  cycledCount: 0
+  _waypoints: []
+  _currentDestinationWaypoint: 0
+  _randomWaypoint: 0
+  _isHiding: 0
+  _randomWait: 0
 --- !u!114 &4557864835917073139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,7 +128,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c44764e320fc0e44a71c6a92b284ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationClips: []
+  _animationClips:
+  - {fileID: 7400000, guid: 357f72fb73a25164f94ab04c294e95d5, type: 2}
+  - {fileID: 7400000, guid: 10039805cafb37c4ebc90fb3b289a254, type: 2}
+  - {fileID: 7400000, guid: 0d51aa050f1bd53478c6a8d4556c45b0, type: 2}
+  - {fileID: 7400000, guid: b574881f9f22877409ba37acda11a71a, type: 2}
+  - {fileID: 7400000, guid: 39df4aa526f077d45baf9ddafcdeb49f, type: 2}
 --- !u!1 &1799733791174770210
 GameObject:
   m_ObjectHideFlags: 0

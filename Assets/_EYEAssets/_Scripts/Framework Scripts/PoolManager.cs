@@ -34,6 +34,9 @@ public class PoolManager : MonoBehaviour
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private AudioClip _enterEndpointClip;
 
+    [SerializeField] private List<Transform> _waypoints;
+
+
     //MAIN FUNCTIONS
     void Awake()
     {
@@ -52,14 +55,22 @@ public class PoolManager : MonoBehaviour
 
     //ENEMY INFORMATION
     //CREATE ENEMIES & ADD TO ENEMY LIST
-    List<GameObject> GenerateEnemies(int numberOfEnemies)
+    private List<GameObject> GenerateEnemies(int numberOfEnemies)
     {
+        //Do This 10 Times
         for (int i = 0; i < numberOfEnemies; i++)
         {
-            GameObject enemy = Instantiate(_enemyPrefab);
-            enemy.transform.parent = _enemyContainer.transform;
-            enemy.SetActive(false);
-            _enemyPool.Add(enemy);
+            //Create an enemy from prefab
+                GameObject enemy = Instantiate(_enemyPrefab);
+            //Set the enemy as a child of the enemy container
+                enemy.transform.parent = _enemyContainer.transform;
+            //Disable the enemy gameobject
+                enemy.SetActive(false);
+            //Add enemy to the enemy pool
+                _enemyPool.Add(enemy);
+
+            //Give the enemy the waypoint map
+                enemy.GetComponent<EnemyControl>().SetWaypoints(_waypoints);
         }         
         return _enemyPool;
     }   
