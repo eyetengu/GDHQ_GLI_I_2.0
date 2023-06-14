@@ -36,6 +36,8 @@ public class PoolManager : MonoBehaviour
 
     [SerializeField] private List<Transform> _waypoints;
 
+    private int _enemyScore = 0;
+
 
     //MAIN FUNCTIONS
     void Awake()
@@ -50,7 +52,6 @@ public class PoolManager : MonoBehaviour
         sendNextEnemy = true;
     
         SpawnEnemy();
-        //StartCoroutine(SpawnEnemyAtStartPoint());
     }
 
     //ENEMY INFORMATION
@@ -84,7 +85,7 @@ public class PoolManager : MonoBehaviour
 
         foreach(GameObject enemy in _enemyPool)
         {
-            Debug.Log("Prepping Enemy");
+            //Debug.Log("Prepping Enemy");
             if(enemy.activeInHierarchy == false)
             {
                 enemy.SetActive(true);
@@ -103,10 +104,16 @@ public class PoolManager : MonoBehaviour
     //SPAWN ENEMY DELAY
     IEnumerator SpawnEnemyAtStartPoint()
     {
-        Debug.Log("Enemy Spawned");
+        //Debug.Log("Enemy Spawned");
         yield return new WaitForSeconds(5); // (Random.Range(1, 2));
         
         SpawnEnemy();
     }
     
+
+    public void UpdateEnemyScore()
+    {
+        _enemyScore++;
+        Debug.Log("EnemyScore = " + _enemyScore);
+    }
 }

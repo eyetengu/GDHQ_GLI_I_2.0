@@ -9,6 +9,8 @@ public class EnemyControl : MonoBehaviour
     //Enemy Specifics
     private NavMeshAgent _agent;
     private ControlPlayerAnimation _controlPlayerAnimation;
+    private PoolManager _poolManager;
+
     //Animations
     //[SerializeField] List<AnimationClip> _animationClips;
     //Waypoints
@@ -19,21 +21,24 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private float _randomWait;
 
 
-    void Start()
+    private void Awake()
     {
         //Enemy
         _agent = GetComponent<NavMeshAgent>();
-        _controlPlayerAnimation = GetComponent<ControlPlayerAnimation>();
+        _controlPlayerAnimation = GetComponent<ControlPlayerAnimation>();        
+    }
 
+    void Start()
+    {
         if (_controlPlayerAnimation == null)
-            Debug.Log("No ControlPlayerAnimation Available");
+            Debug.LogError("ControlPlayerAnimation = NULL");
 
         //Waypoints
         if (_waypoints == null)
-            Debug.LogError("Waypoints Are NULL");        
+            Debug.LogError("Waypoints = NULL");        
 
         if(_agent == null)
-            Debug.Log("No Agent Found");
+            Debug.LogError("Agent = NULL");
         else 
         {
             _agent.destination = _waypoints[0].position;
@@ -54,25 +59,11 @@ public class EnemyControl : MonoBehaviour
 
     public void SetWaypoints(List<Transform> points)
     {
-        Debug.Log("Waypoints are being set");
+        //Debug.Log("Waypoints are being set");
         _waypoints = points;
-    }
+    }    
 
-    private void GoToNextPoint()
-    {
-
-        //when arrived wait random time(1-3 sec)
-        //choose my next destination (random current - count)
-        //go to next destination
-        //repeat
-        //_agent.destination = _waypoints
-
-        //_currentDestinationWaypoint
-        
-        _agent.destination = _waypoints[_waypoints.Count -1].transform.position;
-    }
-
-    void SwitchAnimation(int counter)
+    public void SwitchAnimation(int counter)
     {
         switch (counter)
         {
@@ -99,11 +90,20 @@ public class EnemyControl : MonoBehaviour
             default:
                 break;
         }
-    }    
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "EndPoint")
+        {
+            _poolManager.UpdateEnemyScore();            
+            this.gameObject.SetActive(false);
+        }
+    }
 
     IEnumerator WaitAndRun()
     {
-        Debug.Log("Total Waypoints: " + _waypoints.Count);
+        //Debug.Log("Total Waypoints: " + _waypoints.Count);
         _isHiding = true;
 
         _randomWait = Random.Range(0.0f, 3.0f);

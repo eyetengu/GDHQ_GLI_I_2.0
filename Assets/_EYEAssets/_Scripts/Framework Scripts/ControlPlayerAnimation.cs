@@ -54,5 +54,4 @@ public class ControlPlayerAnimation : MonoBehaviour
         _femaleAnimation.SetTrigger("Death");        
         Debug.Log("Dying");
     }
-
 }
