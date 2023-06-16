@@ -5,15 +5,17 @@ using UnityEngine;
 public class EndPointTrigger : MonoBehaviour
 {
     [SerializeField] private AudioManager _audioPlayer;
-
-    // Start is called before the first frame update
+    [SerializeField] private PoolManager _poolManager;
+    [SerializeField] private UIControlScript _uiControl;
     
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Enemy")
         {
-            //_audioPlayer.PlayAudioClip(3);
-            //Debug.Log("Game Over Trigger");
+            _audioPlayer.PlayAudioClip(3);
+            Debug.Log("Game Over Trigger");
+            _uiControl.UpdateEnemyScore(1);
+            
         }
     }
 

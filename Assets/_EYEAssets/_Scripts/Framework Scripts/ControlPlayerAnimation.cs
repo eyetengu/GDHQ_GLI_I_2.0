@@ -32,8 +32,7 @@ public class ControlPlayerAnimation : MonoBehaviour
     
     public void Walking()
     {
-        _femaleAnimation.SetFloat("Speed", 2);
-        
+        _femaleAnimation.SetFloat("Speed", 2);        
         Debug.Log("Walk");
     }
 
@@ -53,5 +52,5 @@ public class ControlPlayerAnimation : MonoBehaviour
     {
         _femaleAnimation.SetTrigger("Death");        
         Debug.Log("Dying");
-    }
+    }    
 }

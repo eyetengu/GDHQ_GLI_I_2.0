@@ -22,8 +22,9 @@ public class PoolManager : MonoBehaviour
     [Header("ENEMY SETTINGS")]
     [SerializeField] private List<GameObject> _enemyPool;
     [SerializeField] private GameObject _enemyPrefab;
-    [SerializeField] private GameObject _enemyContainer;                                                                                    
+    [SerializeField] private GameObject _enemyContainer;
     [SerializeField] private bool sendNextEnemy;
+    private EnemyControl _enemyControl;
 
     [Header("END POINTS")]
     [SerializeField]
@@ -33,11 +34,14 @@ public class PoolManager : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioManager _audioManager;
     [SerializeField] private AudioClip _enterEndpointClip;
+    [SerializeField] private ControlPlayerAnimation _EnemyAnimation;
 
     [SerializeField] private List<Transform> _waypoints;
 
     private int _enemyScore = 0;
+    private int _enemyMax;
 
+    [SerializeField] UIControlScript _uiControl;
 
     //MAIN FUNCTIONS
     void Awake()
@@ -50,8 +54,12 @@ public class PoolManager : MonoBehaviour
         //create 10 enemies and populate into enemy list
         _enemyPool = GenerateEnemies(10);
         sendNextEnemy = true;
-    
+        
         SpawnEnemy();
+        _enemyMax = _enemyPool.Count;
+        _uiControl = FindObjectOfType<UIControlScript>().GetComponent<UIControlScript>();
+        _uiControl.WhatIsEnemyMax(_enemyMax);
+        _EnemyAnimation = FindObjectOfType<ControlPlayerAnimation>();
     }
 
     //ENEMY INFORMATION
@@ -85,8 +93,10 @@ public class PoolManager : MonoBehaviour
 
         foreach(GameObject enemy in _enemyPool)
         {
+            _enemyControl = enemy.GetComponent<EnemyControl>();
+            var isEnemyDead = _enemyControl._isDead;
             //Debug.Log("Prepping Enemy");
-            if(enemy.activeInHierarchy == false)
+            if(enemy.activeInHierarchy == false && isEnemyDead == false)
             {
                 enemy.SetActive(true);
                 enemy.transform.position = _startPoint.position;
@@ -94,6 +104,8 @@ public class PoolManager : MonoBehaviour
                 StartCoroutine(SpawnEnemyAtStartPoint());
 
                 _audioManager.PlayAudioClip(1);
+                enemy.gameObject.GetComponent<ControlPlayerAnimation>().Running();
+
                 
                 return enemy;
             }

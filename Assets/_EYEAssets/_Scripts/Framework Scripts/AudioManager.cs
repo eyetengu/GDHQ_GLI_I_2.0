@@ -6,10 +6,15 @@ public class AudioManager : MonoBehaviour
 {
     private AudioSource m_AudioSource;
 
-    [SerializeField] private AudioClip _clip01;         //enemy spawned
-    [SerializeField] private AudioClip _clip02;         //enemy entered end zone
-    [SerializeField] private AudioClip _clip03;         //game over
-    [SerializeField] private AudioClip _clip04;         //enemy hit
+    [SerializeField] private AudioClip _enemySpawned;
+    [SerializeField] private AudioClip _enemyScores;
+    [SerializeField] private AudioClip _youLose;
+    [SerializeField] private AudioClip _youWin;
+    [SerializeField] private AudioClip _shotFired;
+    [SerializeField] private AudioClip _enemyDies;
+    [SerializeField] private AudioClip _barrierDestroyed;
+    [SerializeField] private AudioClip _barrierStarted;
+    [SerializeField] private AudioClip _barrelExplosion;
 
     void Start()
     {
@@ -21,16 +26,34 @@ public class AudioManager : MonoBehaviour
         switch(trackNumber)
         {
             case 1:                
-                m_AudioSource.PlayOneShot(_clip01);
-                break;
+                m_AudioSource.PlayOneShot(_enemySpawned);
+                    break;
             case 2:
-                m_AudioSource.PlayOneShot(_clip02);
-                break; 
+                m_AudioSource.PlayOneShot(_enemyScores);
+                    break; 
             case 3:
-                m_AudioSource.PlayOneShot(_clip03);
-                break;
+                m_AudioSource.PlayOneShot(_youLose);
+                    break;
+            case 4:
+                m_AudioSource.PlayOneShot(_youWin);
+                    break;
+            case 5:
+                m_AudioSource.PlayOneShot(_shotFired);
+                    break;
+            case 6:
+                m_AudioSource.PlayOneShot(_enemyDies);
+                    break;
+            case 7:
+                m_AudioSource.PlayOneShot(_barrierDestroyed);
+                    break;
+            case 8:
+                m_AudioSource.PlayOneShot(_barrierStarted);
+                    break;
+            case 9:
+                m_AudioSource.PlayOneShot(_barrelExplosion);
+                    break;  
             default:
-                break;
+                    break;
         }
     }
 }
