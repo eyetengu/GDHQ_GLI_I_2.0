@@ -15,10 +15,11 @@ public class EnemyControl : MonoBehaviour
     //Waypoints
     [SerializeField] private List<Transform> _waypoints = new List<Transform>();
     [SerializeField] int _currentDestinationWaypoint, _randomWaypoint;
+    [SerializeField] private float _randomWait;
+    
     //Hiding
     [SerializeField] private bool _isHiding, _isRunning;
     public bool _isDead = false;
-    [SerializeField] private float _randomWait;
 
     [SerializeField] private UIControlScript _uiControl;
 
@@ -51,7 +52,8 @@ public class EnemyControl : MonoBehaviour
         else 
         {
             _agent.destination = _waypoints[0].position;
-            SwitchAnimation(2);
+            //SwitchAnimation(2);
+            _isRunning = true;
             _isHiding = false;
         }
     }
@@ -59,9 +61,9 @@ public class EnemyControl : MonoBehaviour
     void Update()
     {
         if (_isRunning)
-            _controlPlayerAnimation.Running();
+            SwitchAnimation(2);
         if (_isHiding)
-            _controlPlayerAnimation.Hiding();
+            SwitchAnimation(3);
 
         if(_isHiding == false && !_agent.pathPending && _agent.remainingDistance < 0.5f)
         {
@@ -82,19 +84,19 @@ public class EnemyControl : MonoBehaviour
             case 0: //IDLE
                 _controlPlayerAnimation.Idling();
                 _agent.speed = 0.0f;
-                break;
+                    break;
             case 1: //WALK
                 _controlPlayerAnimation.Walking();
                 _agent.speed = 2.0f;
-                break;
+                    break;
             case 2: //RUN
                 _controlPlayerAnimation.Running();
                 _agent.speed = 4.1f;
-                break;
+                    break;
             case 3: //HIDE
                 _controlPlayerAnimation.Hiding();
                 _agent.speed = 0.0f;
-                break;
+                    break;
             case 4: //DIE
                 _controlPlayerAnimation.Dying();
                 _agent.speed = 0.0f;
@@ -102,10 +104,9 @@ public class EnemyControl : MonoBehaviour
                 _isDead= true;
                 _uiControl.UpdateScore(1);
                 _audioManager.PlayAudioClip(6);
-                
-                break;
+                    break;
             default:
-                break;
+                    break;
         }
     }
 
@@ -121,13 +122,14 @@ public class EnemyControl : MonoBehaviour
     {
         //turn off ability to access coroutine
             _isHiding= true;
-        //Set Animation HIDING
-            SwitchAnimation(3);
+            _isRunning = false;
+
         //generate a random wait time for enemy to HIDE
             _randomWait = Random.Range(0.0f, 3.0f);
             yield return new WaitForSeconds( _randomWait);
+
         //Set animation RUN
-            SwitchAnimation(2);
+            _isRunning = true;
         //find random waypoint between this and last count
             _randomWaypoint = Random.Range(_currentDestinationWaypoint, _waypoints.Count);
         //if check the waypoint and set to last waypoint if equal or greater than

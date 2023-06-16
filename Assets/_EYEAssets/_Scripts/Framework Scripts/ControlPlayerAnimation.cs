@@ -25,32 +25,30 @@ public class ControlPlayerAnimation : MonoBehaviour
         _femaleAnimation.SetFloat("Speed", 0);
         
         _femaleAnimation.SetBool("Hiding", false);
-        _femaleAnimation.ResetTrigger("Death");
-        
-        Debug.Log("Idling");
-    }
-    
+        _femaleAnimation.ResetTrigger("Death");        
+        //Debug.Log("Idling");
+    }    
     public void Walking()
     {
         _femaleAnimation.SetFloat("Speed", 2);        
-        Debug.Log("Walk");
+        //Debug.Log("Walk");
     }
-
     public void Running()
     {        
-        _femaleAnimation.SetFloat("Speed", 5);        
-        Debug.Log("Running");        
-    }
+        _femaleAnimation.SetFloat("Speed", 5);
+        _femaleAnimation.Play("Running");
+        _femaleAnimation.SetBool("Hiding", false);
 
+        //Debug.Log("Running");        
+    }
     public void Hiding()
     {
         _femaleAnimation.SetBool("Hiding", true);        
-        Debug.Log("Hiding");
+        //Debug.Log("Hiding");
     }
-
     public void Dying()
     {
         _femaleAnimation.SetTrigger("Death");        
-        Debug.Log("Dying");
+        //Debug.Log("Dying");
     }    
 }

@@ -104,8 +104,7 @@ public class PoolManager : MonoBehaviour
                 StartCoroutine(SpawnEnemyAtStartPoint());
 
                 _audioManager.PlayAudioClip(1);
-                enemy.gameObject.GetComponent<ControlPlayerAnimation>().Running();
-
+                enemy.gameObject.GetComponent<EnemyControl>().SwitchAnimation(2);
                 
                 return enemy;
             }
